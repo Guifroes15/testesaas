@@ -1,93 +1,115 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --color-bg: #f5f5f5;
-    --color-surface: #ffffff;
-    --color-border: #e5e5e5;
-    --color-text: #111111;
-    --color-muted: #666666;
-  }
-
-  .dark {
-    --color-bg: #0d0d0d;
-    --color-surface: #141414;
-    --color-border: #242424;
-    --color-text: #f0f0f0;
-    --color-muted: #888888;
-  }
-
-  body {
-    @apply bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200;
-    font-feature-settings: 'cv11', 'ss01';
-    -webkit-font-smoothing: antialiased;
-  }
-
-  ::selection {
-    @apply bg-green-500/30 text-green-500;
-  }
-
-  ::-webkit-scrollbar {
-    @apply w-1.5;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-dark-400 dark:bg-dark-500 rounded-full;
-  }
+/* ── CSS Variables — dark mode é o default ─────────────────────────────────── */
+:root {
+  --bg-primary:   #070709;
+  --bg-secondary: #0e0e12;
+  --bg-tertiary:  #14141a;
+  --text-primary:   #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted:     #6b7280;
+  --brand-dark:   #070709;
+  --brand-medium: #0e0e12;
+  --brand-light:  #14141a;
 }
 
-@layer components {
-  .card {
-    @apply bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl;
-  }
+/* Light mode override via .light class */
+:root.light, .light {
+  --bg-primary:   #ffffff;
+  --bg-secondary: #ffffff;
+  --bg-tertiary:  #f1f5f9;
+  --text-primary:   #000000;
+  --text-secondary: #1e293b;
+  --text-muted:     #64748b;
+  --brand-dark:   #f8fafc;
+  --brand-medium: #ffffff;
+  --brand-light:  #f1f5f9;
+}
 
-  .text-muted {
-    @apply text-[var(--color-muted)];
-  }
+/* dark class = dark mode (Tailwind convention we keep for dark: utilities) */
+:root.dark {
+  --bg-primary:   #070709;
+  --bg-secondary: #0e0e12;
+  --bg-tertiary:  #14141a;
+  --text-primary:   #ffffff;
+  --text-secondary: #9ca3af;
+  --text-muted:     #6b7280;
+  --brand-dark:   #070709;
+  --brand-medium: #0e0e12;
+  --brand-light:  #14141a;
+}
 
-  .input-base {
-    @apply w-full bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg px-3 py-2 text-sm
-           text-[var(--color-text)] placeholder:text-[var(--color-muted)]
-           focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500
-           transition-all duration-150;
-  }
+/* ── Base ──────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; }
 
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-           bg-green-500 hover:bg-green-600 active:bg-green-700
-           text-white font-medium text-sm
-           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s, color 0.2s;
+}
 
-  .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-           bg-[var(--color-surface)] border border-[var(--color-border)]
-           hover:border-green-500/50 hover:bg-green-500/5
-           text-[var(--color-text)] font-medium text-sm
-           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
-  }
+::selection { background: rgba(124,58,237,0.3); color: #a78bfa; }
 
-  .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg
-           hover:bg-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)]
-           font-medium text-sm transition-all duration-150;
-  }
+::-webkit-scrollbar       { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-tertiary); border-radius: 4px; }
 
-  .sidebar-link {
-    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
-           text-[var(--color-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]
-           transition-all duration-150 cursor-pointer;
-  }
+/* ── Light mode overrides for legacy brand-* Tailwind classes ──────────────── */
+.light .text-white,
+.light .text-gray-100   { color: #000000 !important; }
+.light .text-gray-200   { color: #0f172a !important; }
+.light .text-gray-300   { color: #1e293b !important; }
+.light .text-gray-400   { color: #334155 !important; }
+.light .text-gray-500   { color: #475569 !important; }
+.light .text-gray-600,
+.light .text-gray-650   { color: #515e73 !important; }
+.light .text-gray-700   { color: #64748b !important; }
 
-  .sidebar-link.active {
-    @apply bg-green-500/10 text-green-500 hover:bg-green-500/15 hover:text-green-500;
+.light .bg-brand-dark\/30,
+.light .bg-brand-dark\/50   { background-color: #f1f5f9 !important; }
+.light .bg-brand-medium\/40,
+.light .bg-brand-medium\/50,
+.light .bg-brand-medium\/95 { background-color: #ffffff !important; }
+.light .bg-brand-light\/20,
+.light .bg-brand-light\/30,
+.light .bg-brand-light\/40,
+.light .bg-brand-light\/50 { background-color: #f1f5f9 !important; }
+.light .bg-white\/5,
+.light .bg-white\/10       { background-color: #f1f5f9 !important; }
+
+.light .border-brand-light,
+.light .border-white\/5,
+.light .border-white\/10,
+.light .border-white\/20,
+.light .border-gray-800     { border-color: #cbd5e1 !important; }
+
+.light input,
+.light textarea,
+.light select {
+  border-color: #cbd5e1 !important;
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+/* Keep white text inside filled purple/green buttons in light mode */
+.light button.bg-brand-purple,
+.light button.bg-brand-purple *,
+.light button.bg-green-500,
+.light button.bg-green-500 *,
+.light button.bg-blue-600,
+.light button.bg-blue-600 * { color: #ffffff !important; }
+
+/* ── Utilities ─────────────────────────────────────────────────────────────── */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  .mask-fade-right {
+    mask-image: linear-gradient(to right, black 85%, transparent 100%);
   }
 }
