@@ -7,9 +7,9 @@ function mes(label: string, chave: string, overrides: Partial<MonthData> = {}): 
   const ticketMedio = overrides.ticketMedio ?? 320
   const vendas = qtdVendas * ticketMedio
   const verba = overrides.verba ?? 3500
-  const impressoes = overrides.impressoes ?? Math.round(verba * 280)
-  const cliques = overrides.cliques ?? Math.round(impressoes * 0.018)
-  const conversoes = overrides.conversoes ?? Math.round(cliques * 0.22)
+  const impressoes = Math.round(verba * 280)
+  const cliques    = Math.round(impressoes * 0.018)
+  const conversoes = Math.round(cliques * 0.22)
 
   return {
     mes: label,
