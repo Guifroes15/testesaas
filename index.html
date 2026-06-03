@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aure — Dashboard de Marketing</title>
     <meta name="description" content="Plataforma SaaS de analytics e gestão para times de marketing." />
+    <script>
+      window.onerror = function(msg, src, line, col, err) {
+        document.body.innerHTML = '<div style="padding:32px;font-family:monospace;background:#0d0d0d;color:#f87171;min-height:100vh"><b>Erro JS:</b><br/>' + msg + '<br/><small>' + src + ':' + line + '</small><br/><pre style="white-space:pre-wrap;font-size:11px;margin-top:12px">' + (err && err.stack ? err.stack : '') + '</pre></div>';
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>
