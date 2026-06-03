@@ -21,10 +21,6 @@
     --color-muted: #888888;
   }
 
-  * {
-    @apply border-border;
-  }
-
   body {
     @apply bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200;
     font-feature-settings: 'cv11', 'ss01';
