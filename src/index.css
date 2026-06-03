@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #f5f5f5;
+    --color-surface: #ffffff;
+    --color-border: #e5e5e5;
+    --color-text: #111111;
+    --color-muted: #666666;
+  }
+
+  .dark {
+    --color-bg: #0d0d0d;
+    --color-surface: #141414;
+    --color-border: #242424;
+    --color-text: #f0f0f0;
+    --color-muted: #888888;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-[var(--color-bg)] text-[var(--color-text)] transition-colors duration-200;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    @apply bg-green-500/30 text-green-500;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-dark-400 dark:bg-dark-500 rounded-full;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-[var(--color-surface)] border border-[var(--color-border)] rounded-xl;
+  }
+
+  .text-muted {
+    @apply text-[var(--color-muted)];
+  }
+
+  .input-base {
+    @apply w-full bg-[var(--color-surface)] border border-[var(--color-border)] rounded-lg px-3 py-2 text-sm
+           text-[var(--color-text)] placeholder:text-[var(--color-muted)]
+           focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500
+           transition-all duration-150;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
+           bg-green-500 hover:bg-green-600 active:bg-green-700
+           text-white font-medium text-sm
+           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
+           bg-[var(--color-surface)] border border-[var(--color-border)]
+           hover:border-green-500/50 hover:bg-green-500/5
+           text-[var(--color-text)] font-medium text-sm
+           transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg
+           hover:bg-[var(--color-border)] text-[var(--color-muted)] hover:text-[var(--color-text)]
+           font-medium text-sm transition-all duration-150;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+           text-[var(--color-muted)] hover:text-[var(--color-text)] hover:bg-[var(--color-border)]
+           transition-all duration-150 cursor-pointer;
+  }
+
+  .sidebar-link.active {
+    @apply bg-green-500/10 text-green-500 hover:bg-green-500/15 hover:text-green-500;
+  }
+}
