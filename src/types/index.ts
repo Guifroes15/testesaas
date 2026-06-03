@@ -1,7 +1,7 @@
 // ─── Auth & Users ────────────────────────────────────────────────────────────
 
 export type UserRole = 'owner' | 'admin' | 'member' | 'viewer'
-export type PlanId = 'starter' | 'pro' | 'enterprise'
+export type PlanId   = 'starter' | 'pro' | 'enterprise'
 
 export interface UserProfile {
   uid: string
@@ -123,35 +123,104 @@ export const PLANS: Plan[] = [
 
 // ─── Store & Analytics ────────────────────────────────────────────────────────
 
+export interface MetaAdsData {
+  investimento: number    // R$ investido
+  alcance: number         // pessoas alcançadas
+  impressoes: number      // total de impressões
+  cliques: number         // cliques no link
+  conversoes: number      // conversões (mensagens iniciadas)
+  cpc: number             // custo por clique
+  cpm: number             // custo por mil impressões
+  ctr: number             // taxa de clique (%)
+  roas: number            // retorno sobre investimento em ads
+}
+
 export interface MonthData {
-  month: string
-  vendas: number
-  faturamento: number
-  conversao: number
-  ticketMedio: number
-  mensagens: number
+  mes: string             // label exibido: "Jun/25"
+  chave: string           // chave de ordenação: "2025-06"
+  vendas: number          // faturamento total
+  faturamentoLoja: number // faturamento líquido da loja
+  conversao: number       // taxa de conversão (%)
+  mensagens: number       // leads / mensagens recebidas
+  qtdVendas: number       // quantidade de vendas fechadas
+  ticketMedio: number     // ticket médio (R$)
+  pctAureFat: number      // % da Aure sobre o faturamento
+  verba: number           // verba Meta Ads (R$)
+  metaAds?: MetaAdsData   // detalhes da campanha Meta Ads
+}
+
+export type PlanStatus = 'Alta' | 'Média' | 'Baixa' | 'Sucesso' | 'Teste'
+
+export interface PlanItem {
+  id: string
+  tarefa: string
+  status: PlanStatus
 }
 
 export interface Store {
   id: string
   workspaceId: string
   name: string
+  color: string
+  fee: number             // taxa Aure (%)
   groupId?: string
-  color?: string
-  monthlyData: MonthData[]
+  historico: MonthData[]
+  planos: PlanItem[]
   createdAt: string
 }
 
+// ─── Simulador ────────────────────────────────────────────────────────────────
+
 export interface SimuladorInput {
-  investimento: number
-  mensagensBase: number
-  mes: string
+  verbaPlanning: number
+  mensagensPlanning: number
 }
 
 export interface SimuladorResult {
-  pessimista: { vendas: number; faturamento: number; roi: number }
-  base: { vendas: number; faturamento: number; roi: number }
-  otimista: { vendas: number; faturamento: number; roi: number }
+  pessimista: number
+  base: number
+  otimista: number
+  custoTotal: number
+  roiPessimista: number
+  roiBase: number
+  roiOtimista: number
+  convMediaHist: number
+  ticketMedioHist: number
+  mesesUsados: number
+}
+
+export function calcularSimulador(
+  historico: MonthData[],
+  input: SimuladorInput,
+): SimuladorResult {
+  const meses = historico.filter(m => m.mensagens > 0 && m.qtdVendas > 0).slice(-6)
+  const n = meses.length || 1
+
+  const convMediaHist   = meses.reduce((a, m) => a + m.conversao, 0) / n
+  const ticketMedioHist = meses.reduce((a, m) => a + m.ticketMedio, 0) / n
+
+  const vendas = (conv: number) => Math.round(input.mensagensPlanning * (conv / 100))
+  const fat    = (conv: number) => vendas(conv) * ticketMedioHist
+
+  const pessimista = fat(convMediaHist * 0.7)
+  const base       = fat(convMediaHist)
+  const otimista   = fat(convMediaHist * 1.3)
+
+  const roi = (f: number) =>
+    input.verbaPlanning > 0 ? ((f - input.verbaPlanning) / input.verbaPlanning) * 100 : 0
+
+  return {
+    pessimista,
+    base,
+    otimista,
+    custoTotal: input.verbaPlanning,
+    roiPessimista: roi(pessimista),
+    roiBase:       roi(base),
+    roiOtimista:   roi(otimista),
+    convMediaHist,
+    ticketMedioHist,
+    mesesUsados: n,
+  }
 }
 
 // ─── Ideas ────────────────────────────────────────────────────────────────────

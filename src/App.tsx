@@ -8,6 +8,8 @@ import { Landing } from '@/pages/Landing'
 import { Login } from '@/pages/Login'
 import { Onboarding } from '@/pages/Onboarding'
 import { Dashboard } from '@/pages/Dashboard'
+import { Lojas } from '@/pages/Lojas'
+import { LojaDetalhe } from '@/pages/LojaDetalhe'
 import { Admin } from '@/pages/Admin'
 import { Settings } from '@/pages/Settings'
 
@@ -41,13 +43,14 @@ export default function App() {
               {/* App — auth + workspace required */}
               <Route element={<ProtectedRoute />}>
                 <Route path="/app" element={<AppLayout />}>
-                  <Route index element={<Dashboard />} />
-                  <Route path="lojas"    element={<ComingSoon label="Gestão de lojas" />} />
-                  <Route path="ranking"  element={<ComingSoon label="Ranking de lojas" />} />
-                  <Route path="ideias"   element={<ComingSoon label="Gestão de ideias" />} />
-                  <Route path="equipe"   element={<ComingSoon label="Equipe & membros" />} />
-                  <Route path="admin"    element={<Admin />} />
-                  <Route path="ajustes"  element={<Settings />} />
+                  <Route index          element={<Dashboard />} />
+                  <Route path="lojas"          element={<Lojas />} />
+                  <Route path="lojas/:id"      element={<LojaDetalhe />} />
+                  <Route path="ranking"        element={<ComingSoon label="Ranking de lojas" />} />
+                  <Route path="ideias"         element={<ComingSoon label="Gestão de ideias" />} />
+                  <Route path="equipe"         element={<ComingSoon label="Equipe & membros" />} />
+                  <Route path="admin"          element={<Admin />} />
+                  <Route path="ajustes"        element={<Settings />} />
                 </Route>
               </Route>
 
